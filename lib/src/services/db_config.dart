@@ -36,7 +36,7 @@ class DBProvider {
     : await initDB();
   }
 
-  initDB() async {
+  Future<Database> initDB() async {
     Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, _databaseName);
 
@@ -46,7 +46,7 @@ class DBProvider {
     );
   }
 
-  _onCreate(Database db, int version){
+  void _onCreate(Database db, int version){
     createTablesQueries.forEach((element) async{
       await db.execute(element);
     });
@@ -56,7 +56,7 @@ class DBProvider {
     Database db = await database;
     
     return parentID != null
-    ? await db.query(table, where: 'parentID = ?', whereArgs: [parentID])
+    ? await db.query(table, where: 'parentID = ?', whereArgs: <int>[parentID])
     : await db.query(table);
   }
 
@@ -67,17 +67,17 @@ class DBProvider {
 
   Future<void> update(String table, int id, int count) async {
     Database db = await database;
-    List<Map<String, dynamic>> _data = await db.query(table, where: 'id = ?', whereArgs: [id]);
+    List<Map<String, dynamic>> _data = await db.query(table, where: 'id = ?', whereArgs: <int>[id]);
     
     await db.update(table, 
-      {'amountOfChildren': (_data[0]['amountOfChildren'] ?? 0) + count}, 
+      <String,dynamic>{'amountOfChildren': (_data[0]['amountOfChildren'] ?? 0) + count}, 
       where: 'id = ?', 
-      whereArgs: [id]
+      whereArgs: <int>[id]
     );
   }
 
   Future<void> delete(String table, String columnName, int id) async {
     Database db = await database;
-    await db.delete(table, where: '$columnName = ?', whereArgs: [id]);
+    await db.delete(table, where: '$columnName = ?', whereArgs: <int>[id]);
   }
 }

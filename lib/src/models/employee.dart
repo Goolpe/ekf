@@ -21,16 +21,16 @@ class EkfEmployee extends EkfPerson{
   int amountOfChildren;
 
   factory EkfEmployee.fromJson(Map<String, dynamic> json) => EkfEmployee(
-    id: json['id'],
-    surname: json['surname'] ?? '', 
-    name: json['name'] ?? '', 
-    patronymic: json['patronymic'] ?? '', 
-    dateOfBirth: fromIsoToDate(json['dateOfBirth']),
-    position: json['position'] ?? 'Разработчик',
-    amountOfChildren: json['amountOfChildren'] ?? 0,
+    id: json['id'] as int,
+    surname: json['surname'] as String ?? '', 
+    name: json['name'] as String ?? '', 
+    patronymic: json['patronymic']  as String?? '', 
+    dateOfBirth: fromIsoToDate(json['dateOfBirth'] as String),
+    position: json['position'] as String ?? 'Разработчик',
+    amountOfChildren: json['amountOfChildren'] as int ?? 0,
   );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
     "id": id,
     "surname": surname, 
     "name": name, 

@@ -12,10 +12,12 @@ class EkfChildrenProvider extends ChangeNotifier{
 
   int _parentID;
 
-  Future<void> getDataList({int parentID}) async {
-    if(parentID != null){
-      _parentID = parentID;
-    }
+  void init(int parentID){
+    _parentID = parentID;
+    getDataList();
+  }
+
+  Future<void> getDataList() async {
     List<Map<String, dynamic>> _list = await DBProvider.db.getAll('Child', parentID: _parentID);
         
     List<EkfChild> list = _list.isNotEmpty 

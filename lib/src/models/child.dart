@@ -19,15 +19,15 @@ class EkfChild extends EkfPerson{
   int parentID;
 
   factory EkfChild.fromJson(Map<String, dynamic> json) => EkfChild(
-    id: json['id'],
-    surname: json['surname'] ?? '', 
-    name: json['name'] ?? '', 
-    patronymic: json['patronymic'] ?? '', 
-    dateOfBirth: fromIsoToDate(json['dateOfBirth']),
-    parentID: json['parentID'] ?? 0
+    id: json['id'] as int,
+    surname: json['surname'] as String ?? '', 
+    name: json['name'] as String ?? '', 
+    patronymic: json['patronymic'] as String ?? '', 
+    dateOfBirth: fromIsoToDate(json['dateOfBirth'] as String ),
+    parentID: json['parentID'] as int ?? 0
   );
 
-  Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => <String, dynamic>{
     "id": id,
     "surname": surname, 
     "name": name, 

@@ -3,29 +3,15 @@ import 'package:flutter/services.dart';
 
 class EkfTextField extends StatelessWidget{
   const EkfTextField({
-    this.maxLength = 30,
-    this.textInputAction = TextInputAction.next,
-    this.keyboardType = TextInputType.text,
-    this.maxLines = 1,
-    this.focusNode,
-    this.nextFocusNode,
-    this.onFieldSubmitted,
     this.onChanged,
     this.onSaved,
     this.initialValue,
     this.items,
   });
 
-  final int maxLength;
-  final FocusNode focusNode;
-  final FocusNode nextFocusNode;
-  final TextInputAction textInputAction;
-  final void Function() onFieldSubmitted;
   final Function(String) onChanged;
   final Function(String) onSaved;
   final String initialValue;
-  final int maxLines;
-  final TextInputType keyboardType;
   ///items != null ? dropdownfield : textfield
   final List<DropdownMenuItem<String>> items;
 
@@ -62,15 +48,11 @@ class EkfTextField extends StatelessWidget{
         counterText: '',
         errorStyle: TextStyle(height: 0),
       ),
-      keyboardType: keyboardType,
-      maxLines: maxLines,
+      maxLines: 1,
       textCapitalization: TextCapitalization.sentences,
-      onFieldSubmitted: (_) => onFieldSubmitted == null
-        ? FocusScope.of(context).nextFocus()
-        : onFieldSubmitted(),
-      textInputAction: textInputAction,
-      focusNode: focusNode,
-      maxLength: maxLength,
+      onFieldSubmitted: (_) => FocusScope.of(context).nextFocus(),
+      textInputAction: TextInputAction.next,
+      maxLength: 30,
       validator: (String value) {
         if (value.trim().isEmpty) {
           return '';

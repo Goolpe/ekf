@@ -23,7 +23,7 @@ class _EkfChildrenScreenState extends State<EkfChildrenScreen> {
   void initState() {
     Future.microtask(() =>
       Provider.of<EkfChildrenProvider>(context, listen: false)
-        .getDataList(parentID: widget.id)
+        .init(widget.id)
     );
     super.initState();
   }
@@ -40,53 +40,39 @@ class _EkfChildrenScreenState extends State<EkfChildrenScreen> {
         builder: (context, AsyncSnapshot<List<EkfChild>> snapshot) {
           if (snapshot.hasData) {
             return snapshot.data.isEmpty
-            ? Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: Text('Здесь пока никого нет =('),
-                  ),
-                  _fab()
-                ],
-              ),
+            ? EkfEmptyList(
+              fab: _fab(),
             )
-            : Stack(
-              children: [
-                ListView.builder(
-                  itemCount: snapshot.data.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      child: Slidable(
-                        actionPane: SlidableDrawerActionPane(),
-                        child: ListTile(
-                          title: Text(snapshot.data[index].surname + ' ' + 
-                            snapshot.data[index].name + ' ' + 
-                            snapshot.data[index].patronymic
-                          ),
-                          trailing: Text(formatDate(snapshot.data[index].dateOfBirth)),
+            : EkfStackList(
+              fab: _fab(),
+              child: ListView.builder(
+                itemCount: snapshot.data.length,
+                itemBuilder: (context, index) {
+                  return Card(
+                    child: Slidable(
+                      actionPane: SlidableDrawerActionPane(),
+                      child: ListTile(
+                        title: Text(snapshot.data[index].surname + ' ' + 
+                          snapshot.data[index].name + ' ' + 
+                          snapshot.data[index].patronymic
                         ),
-                        secondaryActions: [
-                          IconSlideAction(
-                            caption: 'Удалить',
-                            color: Colors.red,
-                            icon: Icons.delete,
-                            onTap: (){
-                              Provider.of<EkfChildrenProvider>(context, listen: false).delete(context, snapshot.data[index].id);
-                            }
-                          ),
-                        ],
+                        trailing: Text(formatDate(snapshot.data[index].dateOfBirth)),
                       ),
-                    );
-                  },
-                ),
-                Positioned(
-                  bottom: 20,
-                  right: 20,
-                  child: _fab(),
-                )
-              ],
+                      secondaryActions: [
+                        IconSlideAction(
+                          caption: 'Удалить',
+                          color: Colors.red,
+                          icon: Icons.delete,
+                          onTap: (){
+                            Provider.of<EkfChildrenProvider>(context, listen: false)
+                              .delete(context, snapshot.data[index].id);
+                          }
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              ),
             );
           } else{
             return Center(
@@ -104,7 +90,7 @@ class _EkfChildrenScreenState extends State<EkfChildrenScreen> {
     return FloatingActionButton.extended(
       elevation: 0,
       label: Text('Добавить ребенка'),
-      onPressed: () => Get.to(
+      onPressed: () => Get.to<Widget>(
         EkfEditorScreen(
           title: 'Добавить ребенка',
           formKey: _formKey,

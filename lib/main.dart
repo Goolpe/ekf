@@ -29,6 +29,13 @@ class MyApp extends StatelessWidget {
             elevation: 0
           )
         ),
+        builder: (BuildContext context, Widget child) {
+          //remove overscroll animation
+          return ScrollConfiguration(
+            behavior: EkfOverScrollBehavior(),
+            child: child
+          );
+        },
         home: EkfEmployeesScreen(),
       ),
     );
