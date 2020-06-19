@@ -16,6 +16,6 @@
 
 ### Screenshots
 <img src="https://raw.githubusercontent.com/Goolpe/ekf/master/assets/0.png" width="200" /> |
-<img src="https://raw.githubusercontent.com/Goolpe/ekf/master/assets/1.png" width="200" /> |
+<img src="https://raw.githubusercontent.com/Goolpe/ekf/master/assets/4.png" width="200" /> |
 <img src="https://raw.githubusercontent.com/Goolpe/ekf/master/assets/2.png" width="200" /> |
 <img src="https://raw.githubusercontent.com/Goolpe/ekf/master/assets/3.png" width="200" /> |
