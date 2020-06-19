@@ -52,29 +52,27 @@ class DBProvider {
     });
   }
 
-  Future<List<Map<String, dynamic>>> getAll(String table) async {
+  Future<List<Map<String, dynamic>>> getAll(String table, {int parentID}) async {
     Database db = await database;
-    return await db.query(table);
+    
+    return parentID != null
+    ? await db.query(table, where: 'parentID = ?', whereArgs: [parentID])
+    : await db.query(table);
   }
 
-  Future<List<Map<String, dynamic>>> getByID(String table, int id) async {
+  Future<void> insert(String table, Map<String, dynamic> row) async {
     Database db = await database;
-    return await db.query(table, where: 'parentID = ?', whereArgs: [id]);
+    await db.insert(table, row);
   }
 
-  Future<int> insert(String table, Map<String, dynamic> row) async {
+  Future<void> update(String table, int id, int count) async {
     Database db = await database;
-    return await db.insert(table, row);
+    List<Map<String, dynamic>> _data = await db.query(table, where: 'id = ?', whereArgs: [id]);
+    await db.update(table, {'amountOfChildren': _data[0]['amountOfChildren'] + count}, where: 'id = ?', whereArgs: [id]);
   }
 
-  Future<int> update(String table, Map<String, dynamic> row) async {
+  Future<void> delete(String table, String columnName, int id) async {
     Database db = await database;
-    int id = row[0];
-    return await db.update(table, row, where: 'id = ?', whereArgs: [id]);
-  }
-
-  Future<int> delete(String table, String columnName, int id) async {
-    Database db = await database;
-    return await db.delete(table, where: '$columnName = ?', whereArgs: [id]);
+    await db.delete(table, where: '$columnName = ?', whereArgs: [id]);
   }
 }

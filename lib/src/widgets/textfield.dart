@@ -11,9 +11,9 @@ class EkfTextField extends StatelessWidget{
     this.nextFocusNode,
     this.onFieldSubmitted,
     this.onChanged,
+    this.onSaved,
     this.initialValue,
     this.items,
-    this.controller
   });
 
   final int maxLength;
@@ -22,12 +22,12 @@ class EkfTextField extends StatelessWidget{
   final TextInputAction textInputAction;
   final void Function() onFieldSubmitted;
   final Function(String) onChanged;
+  final Function(String) onSaved;
   final String initialValue;
   final int maxLines;
   final TextInputType keyboardType;
   ///items != null ? dropdownfield : textfield
   final List<DropdownMenuItem<String>> items;
-  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context){
@@ -42,6 +42,10 @@ class EkfTextField extends StatelessWidget{
       items: items,
       value: initialValue,
       onChanged: onChanged,
+      decoration: InputDecoration(
+        counterText: '',
+        errorStyle: TextStyle(height: 0),
+      ),
       validator: (String value) {
         if (value == null) {
           return '';
@@ -58,7 +62,6 @@ class EkfTextField extends StatelessWidget{
         counterText: '',
         errorStyle: TextStyle(height: 0),
       ),
-      controller: controller,
       keyboardType: keyboardType,
       maxLines: maxLines,
       textCapitalization: TextCapitalization.sentences,
@@ -75,6 +78,7 @@ class EkfTextField extends StatelessWidget{
         return null;
       },
       onChanged: onChanged,
+      onSaved: onSaved,
     );
   }
 }

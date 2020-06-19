@@ -37,6 +37,6 @@ class EkfEmployee extends EkfPerson{
     "patronymic": patronymic, 
     "dateOfBirth": dateOfBirth.toIso8601String(),
     "position": position,
-    "amountOfChildren": amountOfChildren,
+    "amountOfChildren": amountOfChildren ?? 0,
   };
 }

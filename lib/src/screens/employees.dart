@@ -47,14 +47,16 @@ class EkfHomeScreen extends StatelessWidget {
                             _data.patronymic
                           ),
                           subtitle: Text(_data.position.toString()),
-                          trailing: 
-                          _data.amountOfChildren > 0
-                          ? Column(
-                            children: [
-                              Text(formatDate(_data.dateOfBirth)),
-                              Text('Детей: ${_data.amountOfChildren}')
-                            ],
-                          ) : Text(formatDate(_data.dateOfBirth)),
+                          trailing: _data.amountOfChildren > 0
+                            ? Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.end,
+                              children: [
+                                Text(formatDate(_data.dateOfBirth)),
+                                Text('Детей: ${_data.amountOfChildren}')
+                              ],
+                            ) 
+                            : Text(formatDate(_data.dateOfBirth)),
                           onTap: () => Get.to(
                             EkfChildrenScreen(
                               id: _data.id, 
@@ -83,7 +85,9 @@ class EkfHomeScreen extends StatelessWidget {
                 ],
               );
             } else{
-              return SizedBox();
+              return Center(
+                child: CircularProgressIndicator()
+              );
             }
           }
         )
@@ -96,7 +100,7 @@ class EkfHomeScreen extends StatelessWidget {
 
     return FloatingActionButton.extended(
       elevation: 0,
-      label: Text('Добавить'),
+      label: Text('Добавить сотрудника'),
       onPressed: () => Get.to(
         Consumer<EkfEmployeesProvider>(
           builder: (context, state, snapshot) {
@@ -116,9 +120,10 @@ class EkfHomeScreen extends StatelessWidget {
                       }
                     ).toList(),
                     initialValue: state.data.position,
-                    onChanged: (String value){
-                      state.data.position = value;
-                    },
+                    onChanged: (String value) =>
+                      state.data.position = value,
+                    onSaved: (String value) =>
+                      state.data.position = value.trim(),
                   )
                 )
               ],

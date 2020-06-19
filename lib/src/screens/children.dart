@@ -6,7 +6,7 @@ import 'package:provider/provider.dart';
 
 class EkfChildrenScreen extends StatefulWidget {
   EkfChildrenScreen({
-    this.id,
+    @required this.id,
     this.title
   });
 
@@ -72,7 +72,7 @@ class _EkfChildrenScreenState extends State<EkfChildrenScreen> {
                           color: Colors.red,
                           icon: Icons.delete,
                           onTap: (){
-                            Provider.of<EkfChildrenProvider>(context, listen: false).delete(snapshot.data[index].id);
+                            Provider.of<EkfChildrenProvider>(context, listen: false).delete(context, snapshot.data[index].id);
                           }
                         ),
                       ],
@@ -87,7 +87,9 @@ class _EkfChildrenScreenState extends State<EkfChildrenScreen> {
               ],
             );
           } else{
-            return SizedBox();
+            return Center(
+              child: CircularProgressIndicator()
+            );
           }
         }
       )
@@ -99,14 +101,14 @@ class _EkfChildrenScreenState extends State<EkfChildrenScreen> {
 
     return FloatingActionButton.extended(
       elevation: 0,
-      label: Text('Добавить'),
+      label: Text('Добавить ребенка'),
       onPressed: () => Get.to(
         EkfEditorScreen(
           title: 'Добавить ребенка',
           formKey: _formKey,
           person: Provider.of<EkfChildrenProvider>(context, listen: false).data,
           onReady: () => 
-            Provider.of<EkfChildrenProvider>(context, listen: false).create()
+            Provider.of<EkfChildrenProvider>(context, listen: false).create(context)
         )
       ),
     );

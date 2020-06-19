@@ -43,6 +43,8 @@ class _EkfEditorScreenState extends State<EkfEditorScreen> {
                   initialValue: widget.person.surname,
                   onChanged: (String value) =>
                     widget.person.surname = value,
+                  onSaved: (String value) =>
+                    widget.person.surname = value.trim(),
                 )
               ),
               EkfFormField(
@@ -51,6 +53,8 @@ class _EkfEditorScreenState extends State<EkfEditorScreen> {
                   initialValue: widget.person.name,
                   onChanged: (String value) =>
                     widget.person.name = value,
+                  onSaved: (String value) =>
+                    widget.person.name = value.trim(),
                 ),
               ),
               EkfFormField(
@@ -59,6 +63,8 @@ class _EkfEditorScreenState extends State<EkfEditorScreen> {
                   initialValue: widget.person.patronymic,
                   onChanged: (String value) =>
                     widget.person.patronymic = value,
+                  onSaved: (String value) =>
+                    widget.person.patronymic = value.trim(),
                 ),
               ),
               EkfFormField(
@@ -80,7 +86,10 @@ class _EkfEditorScreenState extends State<EkfEditorScreen> {
                     alignment: Alignment.centerLeft,
                     child: Text(formatDate(widget.person.dateOfBirth)),
                   ),
-                  onTap: () => _pickDateDialog(),
+                  onTap: (){
+                    FocusScope.of(context).unfocus();
+                    _pickDateDialog();
+                  }
                 ),
               ),
               if(widget.children != null)
