@@ -3,7 +3,7 @@
 ### Features: 
 1. Add employee;
 2. Add employee's children;
-3. Store data in sqlite;
+3. Save data using sqlite;
 3. Delete data;
 
 ### How to begin

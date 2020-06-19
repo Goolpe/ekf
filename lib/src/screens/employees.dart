@@ -4,7 +4,7 @@ import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
-class EkfHomeScreen extends StatelessWidget {
+class EkfEmployeesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
