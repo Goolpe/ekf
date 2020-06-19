@@ -26,7 +26,7 @@ class EkfHomeScreen extends StatelessWidget {
                   children: [
                     Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: Text('Здесь пока никого =)'),
+                      child: Text('Здесь пока никого нет =('),
                     ),
                     _fab()
                   ],
@@ -39,41 +39,45 @@ class EkfHomeScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       EkfEmployee _data = snapshot.data[index];
 
-                      return Slidable(
-                        actionPane: SlidableDrawerActionPane(),
-                        child: ListTile(
-                          title: Text(_data.surname + ' ' + 
-                            _data.name + ' ' + 
-                            _data.patronymic
+                      return Card(
+                        child: Slidable(
+                          actionPane: SlidableDrawerActionPane(),
+                          child: ListTile(
+                            title: Text(_data.surname + ' ' + 
+                              _data.name + ' ' + 
+                              _data.patronymic
+                            ),
+                            subtitle: Text(_data.position.toString()),
+                            trailing: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.end,
+                                children: [
+                                  Text(formatDate(_data.dateOfBirth)),
+                                  if(_data.amountOfChildren > 0)
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 5),
+                                      child: Text('Детей: ${_data.amountOfChildren}'),
+                                    )
+                                ],
+                              ),
+                            onTap: () => Get.to(
+                              EkfChildrenScreen(
+                                id: _data.id, 
+                                title: _data.name
+                              )
+                            ),
                           ),
-                          subtitle: Text(_data.position.toString()),
-                          trailing: _data.amountOfChildren > 0
-                            ? Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                Text(formatDate(_data.dateOfBirth)),
-                                Text('Детей: ${_data.amountOfChildren}')
-                              ],
-                            ) 
-                            : Text(formatDate(_data.dateOfBirth)),
-                          onTap: () => Get.to(
-                            EkfChildrenScreen(
-                              id: _data.id, 
-                              title: _data.name
-                            )
-                          ),
+                          secondaryActions: [
+                            IconSlideAction(
+                              caption: 'Удалить',
+                              color: Colors.red,
+                              icon: Icons.delete,
+                              onTap: (){
+                                Provider.of<EkfEmployeesProvider>(context, listen: false).delete(_data.id);
+                              }
+                            ),
+                          ],
                         ),
-                        secondaryActions: [
-                          IconSlideAction(
-                            caption: 'Удалить',
-                            color: Colors.red,
-                            icon: Icons.delete,
-                            onTap: (){
-                              Provider.of<EkfEmployeesProvider>(context, listen: false).delete(_data.id);
-                            }
-                          ),
-                        ],
                       );
                     },
                   ),

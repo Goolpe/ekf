@@ -8,7 +8,7 @@ class EkfChildrenScreen extends StatefulWidget {
   EkfChildrenScreen({
     @required this.id,
     this.title
-  });
+  }) : assert(id != null && title != null);
 
   final int id;
   final String title;
@@ -46,7 +46,7 @@ class _EkfChildrenScreenState extends State<EkfChildrenScreen> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16),
-                    child: Text('Здесь пока никого =)'),
+                    child: Text('Здесь пока никого нет =('),
                   ),
                   _fab()
                 ],
@@ -57,25 +57,27 @@ class _EkfChildrenScreenState extends State<EkfChildrenScreen> {
                 ListView.builder(
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
-                    return Slidable(
-                      actionPane: SlidableDrawerActionPane(),
-                      child: ListTile(
-                        title: Text(snapshot.data[index].surname + ' ' + 
-                          snapshot.data[index].name + ' ' + 
-                          snapshot.data[index].patronymic
+                    return Card(
+                      child: Slidable(
+                        actionPane: SlidableDrawerActionPane(),
+                        child: ListTile(
+                          title: Text(snapshot.data[index].surname + ' ' + 
+                            snapshot.data[index].name + ' ' + 
+                            snapshot.data[index].patronymic
+                          ),
+                          trailing: Text(formatDate(snapshot.data[index].dateOfBirth)),
                         ),
-                        trailing: Text(formatDate(snapshot.data[index].dateOfBirth)),
+                        secondaryActions: [
+                          IconSlideAction(
+                            caption: 'Удалить',
+                            color: Colors.red,
+                            icon: Icons.delete,
+                            onTap: (){
+                              Provider.of<EkfChildrenProvider>(context, listen: false).delete(context, snapshot.data[index].id);
+                            }
+                          ),
+                        ],
                       ),
-                      secondaryActions: [
-                        IconSlideAction(
-                          caption: 'Удалить',
-                          color: Colors.red,
-                          icon: Icons.delete,
-                          onTap: (){
-                            Provider.of<EkfChildrenProvider>(context, listen: false).delete(context, snapshot.data[index].id);
-                          }
-                        ),
-                      ],
                     );
                   },
                 ),

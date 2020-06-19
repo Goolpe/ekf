@@ -68,7 +68,12 @@ class DBProvider {
   Future<void> update(String table, int id, int count) async {
     Database db = await database;
     List<Map<String, dynamic>> _data = await db.query(table, where: 'id = ?', whereArgs: [id]);
-    await db.update(table, {'amountOfChildren': _data[0]['amountOfChildren'] + count}, where: 'id = ?', whereArgs: [id]);
+    
+    await db.update(table, 
+      {'amountOfChildren': (_data[0]['amountOfChildren'] ?? 0) + count}, 
+      where: 'id = ?', 
+      whereArgs: [id]
+    );
   }
 
   Future<void> delete(String table, String columnName, int id) async {

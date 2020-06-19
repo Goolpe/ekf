@@ -9,7 +9,7 @@ class EkfEditorScreen extends StatefulWidget {
     this.children,
     this.onReady,
     this.title
-  }) : assert(formKey != null, person != null);
+  }) : assert(formKey != null && person != null);
 
   final GlobalKey<FormState> formKey;
   final List<Widget> children;
