@@ -1,10 +1,10 @@
-# Flutter Project List (tested on android)
+# Flutter Project (tested on android)
 
 ### Features: 
-1. Add employee;
-2. Add employee's children;
-3. Save data using sqlite;
-3. Delete data;
+1. Adding employee;
+2. Adding employee children;
+3. Saving data using sqlite;
+3. Deleting data;
 
 ### How to begin
 1. ```git clone https://github.com/Goolpe/ekf.git```
